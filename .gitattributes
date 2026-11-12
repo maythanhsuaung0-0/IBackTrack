@@ -1,0 +1,9 @@
+# Ready-to-load Chrome runtime; review the corresponding source files instead.
+/manifest.json -text linguist-generated=true
+/background.js -text linguist-generated=true
+/popup.html -text linguist-generated=true
+/content-scripts/** -text linguist-generated=true
+/chunks/** -text linguist-generated=true
+/icon/** -text linguist-generated=true
+/assets/popup-*.css -text linguist-generated=true
+/scripts/extension-files.json linguist-generated=true

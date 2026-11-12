@@ -4,31 +4,29 @@
 
 Backtrack 0.1.1 is a Manifest V3 Chrome extension for reading long ChatGPT answers. Save your place, ask a follow-up in ChatGPT, then return to the passage you were reading. Select text to save persistent highlights.
 
-## Build and install from GitHub
+## Install from GitHub — no build required
+
+This repository includes **`manifest.json` at its root** and the complete compiled Chrome extension. Clone or pull the reviewed code, then load the **IBackTrack folder itself** in Chrome.
 
 ```bash
 git clone https://github.com/maythanhsuaung0-0/IBackTrack.git
-cd IBackTrack
-npm ci
-npm run build
 ```
 
-When reviewing an unmerged pull request, check out its branch before running `npm ci` and building.
+1. Open `chrome://extensions` and enable **Developer mode**.
+2. Click **Load unpacked** and select the **IBackTrack** folder containing this README and **manifest.json**.
+3. Refresh ChatGPT. Use an existing conversation at `https://chatgpt.com/c/...`.
 
-1. In desktop Chrome, open `chrome://extensions` and turn on **Developer mode**.
-2. Choose **Load unpacked**, then select **`.output/chrome-mv3`** inside your checkout. That directory directly contains `manifest.json`.
-3. Refresh any ChatGPT tabs already open.
-4. Open an existing conversation at `https://chatgpt.com/c/...`. Backtrack's controls appear near the bottom right.
+When reviewing an unmerged pull request, check out that PR's branch first. Keep the folder in a permanent location.
 
-Keep the checkout in a permanent folder. This is a local development build, not a Chrome Web Store release.
+**If Chrome says the manifest is missing:** confirm the selected folder directly contains `manifest.json`. The source folders `entrypoints`, `components`, and `lib` are not extension install folders. On an older checkout without a root manifest, pull the merged installation fix first.
 
 ## Update an installed build
 
-Check out the reviewed revision, run `npm ci` and `npm run build`, click Backtrack's **Reload** button on `chrome://extensions`, and refresh ChatGPT. The extension version should be **0.1.1**. Keep the same installed folder to preserve its extension identity and local data.
+Run `git pull` in the same installed checkout, click Backtrack's **Reload** button on `chrome://extensions`, and refresh ChatGPT. You do not need npm to install or update the checked-in build. The extension version remains **0.1.1**; this change fixes packaging rather than changing saved data or permissions.
 
-If your existing installation uses the earlier `Backtrack-Chrome` folder, copy the newly built files from `.output/chrome-mv3` into that same folder before reloading.
+If your existing installation uses the earlier `Backtrack-Chrome` folder, you can copy the generated runtime files listed in `scripts/extension-files.json` into that same folder before reloading. Keep the same installed folder to preserve the extension identity and local data.
 
-Version 0.1.1 fixes selection loss when clicking the in-page Save spot button, adds alternative assistant-turn / shell reading targets, and handles answers split across multiple markdown sections. It still excludes user messages and editable composer text. Four regression cases failed against 0.1.0 and passed after the fix; the exact affected layout in the owner's live page still needs confirmation.
+Version 0.1.1 fixes selection loss when clicking Save spot, supports alternative assistant-turn / shell reading targets, and handles answers split across multiple markdown sections. Live ChatGPT layout confirmation is still tracked in `QA.md`.
 
 ## Use it
 
@@ -53,12 +51,14 @@ npm run check
 npm run build
 ```
 
-Load `.output/chrome-mv3` with **Load unpacked**. Build output is generated locally and is not committed.
+`npm run build` compiles into `.output/chrome-mv3` and stages the same runtime files at the repository root. Load the repository root with **Load unpacked**. Run `npm run check:extension` to validate the root manifest, every packaged file hash, and all manifest/popup asset references.
+
+The generated files are intentionally committed so Chrome can load a fresh checkout immediately. After changing source, run `npm run build` and commit the updated runtime and `scripts/extension-files.json`. CI rebuilds and rejects source/runtime drift. Do not edit generated JavaScript directly; source remains in `entrypoints`, `components`, `lib`, and `features`.
 
 | Command                | What it does                                             |
 | ---------------------- | -------------------------------------------------------- |
 | `npm run dev`          | WXT development mode and extension reload support        |
-| `npm run build`        | Production Chrome Manifest V3 extension                  |
+| `npm run build`        | Build and stage the ready-to-load Chrome extension       |
 | `npm run zip`          | WXT’s extension-only ZIP                                 |
 | `npm run typecheck`    | Strict TypeScript checks                                 |
 | `npm run lint`         | ESLint source checks                                     |
@@ -72,7 +72,7 @@ The optional fixture uses sample answer text and localStorage. It exercises the 
 
 ## Pull request checks
 
-GitHub Actions runs TypeScript, ESLint, all tests, formatting verification and the production extension build on pull requests and pushes to `main`. A successful run includes a `backtrack-chrome` build artifact. Local development uses the same npm scripts.
+GitHub Actions runs TypeScript, ESLint, all tests, formatting verification and the production extension build on pull requests and pushes to `main`. It also verifies the checked-in Chrome runtime matches a fresh build. A successful run includes a `backtrack-chrome` build artifact. Local development uses the same npm scripts.
 
 ## How it works
 

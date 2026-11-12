@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "wxt",
-    "build": "wxt build",
+    "build": "wxt build && node scripts/extension-build.mjs stage",
     "zip": "wxt zip",
     "compile": "tsc --noEmit",
     "postinstall": "wxt prepare",
@@ -17,7 +17,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check": "npm run typecheck && npm run lint && npm test",
-    "demo": "vite --config demo/vite.config.ts --host 127.0.0.1"
+    "demo": "vite --config demo/vite.config.ts --host 127.0.0.1",
+    "check:extension": "node scripts/extension-build.mjs check"
   },
   "dependencies": {
     "react": "^19.2.4",

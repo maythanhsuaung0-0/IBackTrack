@@ -608,3 +608,15 @@ Record partial implementation or uncertain findings here, without ticking tasks 
 - **Docs:** README now explains cloning, building, loading `.output/chrome-mv3`, and reloading an installed build.
 - **Checks:** Added a read-only GitHub Actions workflow that runs the same local scripts and uploads the built Chrome extension as an artifact. Actual remote status must be checked in GitHub; no pass is assumed from configuration alone.
 - **Live acceptance:** M6.2–M6.4 remain pending. The user reviews and merges the PR.
+
+
+### 2026-11-11 — Repository-root Chrome installation
+- **User report:** After moving to GitHub, Chrome still reported a missing manifest. PR #1 was merged, but source-only checkout required a WXT build and selection of a hidden output directory.
+- **What changed:** The repository root now includes `manifest.json` and the compiled runtime. `npm run build` stages validated WXT output there, maintains an inventory of hashes, and removes obsolete generated chunks. Chrome can load the IBackTrack folder directly.
+- **Files:** `scripts/extension-build.mjs`, `scripts/extension-files.json`, generated root runtime, package scripts, CI, docs, and packaging regression tests.
+- **Tradeoff:** Generated bundles are now deliberately tracked for immediate installation; Git attributes mark them generated, lint/format exclude exact compiler output, and CI rebuilds and rejects source/runtime drift.
+- **Scope:** Same 0.1.1 application behavior, schema and permissions. No Chrome Web Store publication. M6.2–M6.4 stay pending.
+- **Evidence:** Final local and GitHub check outcomes are recorded with the follow-up PR. Package validation covers the manifest and all declared/popup resources; fixture tests intentionally reject missing or corrupted files.
+- **Try it yourself:** After merging, pull the repository and select IBackTrack itself in Chrome's Load unpacked dialog.
+
+- **Local outcome:** Strict TypeScript, ESLint, **66 tests in 7 files**, production build, root package validation (12 runtime files), and formatting verification all passed. Remote CI is checked separately before handoff.
