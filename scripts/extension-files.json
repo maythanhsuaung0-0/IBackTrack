@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "files": {
+    "assets/popup-BYk3_Gt2.css": "598684c687e1130ef22d511a33d689c01ca9fe4c1fd68827423b1d262a9af6b9",
+    "background.js": "a11942e204410a00a3d0633c1f708ac6e461d078128b7331cd57ddc5fa9ab02f",
+    "chunks/popup-Nqfy7S-W.js": "a8ae86a48dcf7f9612550da741b2fdcc881b8f2f070b2d55444ecc7e709469d3",
+    "content-scripts/chatgpt.css": "56bc39ea3f01aac652cedc7825768f45795d3677b15626d5632b9d3259efdea4",
+    "content-scripts/chatgpt.js": "89320816867687fd7b76f854c6fb807f02465ac021b41da9b898516411b160d3",
+    "icon/128.png": "8b8053b4a68d5f85b5c3fe05b89dc6f616b582543c3176675d0ebdb995062853",
+    "icon/16.png": "a16d3c4defccaa5a00bfccc39594e0900b66d361822e17f38b2acc668bc79ef4",
+    "icon/32.png": "166ceb09121ab44d47f2e6043377615e5632b7e40f0a86a03afa74dbd121cd5f",
+    "icon/48.png": "3fab705bb6f02b538664a76200d4c37031f9b5cf89a1bc2ce1e8e1a71b3e923d",
+    "icon/96.png": "44166f626c16d1659182568ffc4ec9d4043fdca4618d242e0b2390a38546644a",
+    "manifest.json": "ebe2732707365b51807776e428d16507318f59ba46d8d096364b00016b03ac3a",
+    "popup.html": "db953c36bcef07d408d7679fef48941c87b1ecd26ed9d08c1353b8cfd9c6106e"
+  }
+}

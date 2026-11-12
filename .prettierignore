@@ -8,3 +8,12 @@ demo-dist
 
 preview
 release
+
+# Generated Chrome runtime (keep exact compiler output)
+manifest.json
+background.js
+popup.html
+content-scripts
+chunks
+icon
+assets/popup-*.css

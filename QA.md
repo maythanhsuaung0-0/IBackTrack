@@ -18,13 +18,19 @@ The browser fixture now mounts the controls in an actual shadow root and uses sh
 
 ## Still required in live desktop Chrome / ChatGPT
 
-These checks are intentionally pending. Build the repository and load `.output/chrome-mv3`, then use a non-sensitive existing ChatGPT conversation.
+These checks are intentionally pending. Load the repository root (which contains `manifest.json`), then use a non-sensitive existing ChatGPT conversation.
 
 - [ ] **M6.2** Read about 20% into a long answer; press Save spot; ask a follow-up manually; Return must show the original paragraph.
 - [ ] **M6.3** Refresh; Return again. Switch conversations; the other conversation must not show the first checkpoint. Return to the original chat; its checkpoint should reappear. Try an edited/deleted source; expect a clear error and preserved saved item, with no incorrect jump.
 - [ ] **M6.4** Select across bold/code/link text, save two overlapping highlights, refresh, remove only one, and verify the other remains. Type normally in the composer. Select composer text and confirm no Backtrack selection toolbar appears. Test Escape and tab navigation. Inspect light and dark ChatGPT themes, narrow desktop widths, and reduced-motion settings.
 - [ ] Scroll far into a very long conversation and test source virtualization. If the passage is not loaded, the extension may report it unavailable after three seconds.
 - [ ] Open the same conversation in two Chrome tabs. Save different highlights rapidly and confirm both survive. Service-worker transport must be verified here in addition to the repository’s automated concurrency test.
+
+## Installation package verification
+
+The repository root now contains the compiled Chrome runtime and `manifest.json`. A fresh checkout can be loaded without Node/npm. Development builds stage exactly the same files into the root. `npm run check:extension` checks file integrity and every declared manifest/popup dependency; CI additionally rebuilds and fails if committed runtime files differ.
+
+Packaging regression tests cover a missing root manifest, an unlisted manifest asset, changed generated JavaScript, unsafe inventory paths, a complete valid package, and obsolete hashed-chunk cleanup. These checks do not count as live ChatGPT acceptance.
 
 ## Troubleshooting
 
