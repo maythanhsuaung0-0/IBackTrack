@@ -39,10 +39,12 @@ vi.mock('wxt/utils/content-script-ui/shadow-root', () => ({
 vi.mock('wxt/browser', () => ({
   browser: {
     runtime: {
-      sendMessage: vi.fn().mockResolvedValue({
-        ok: true,
-        state: { schemaVersion: 1, items: [] },
-      }),
+      sendMessage: vi.fn((_message, reply) =>
+        reply({
+          ok: true,
+          state: { schemaVersion: 1, items: [] },
+        }),
+      ),
     },
     storage: { onChanged: { addListener: vi.fn(), removeListener: vi.fn() } },
   },

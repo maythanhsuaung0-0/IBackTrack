@@ -1,21 +1,13 @@
-import { browser } from 'wxt/browser';
 import { defineBackground } from 'wxt/utils/define-background';
 import { Repository } from '../lib/storage';
+import { extensionApi } from '../lib/extension-api';
+import { chromeStorage } from '../lib/chrome-storage';
 
 export default defineBackground(() => {
-  const repository = new Repository({
-    async get(key) {
-      return (await browser.storage.local.get(key))[key];
-    },
-    async set(key, value) {
-      await browser.storage.local.set({ [key]: value });
-    },
-    async bytes() {
-      return browser.storage.local.getBytesInUse(null);
-    },
-  });
-  browser.runtime.onMessage.addListener((message, sender, reply) => {
-    if (sender.id !== browser.runtime.id || message?.channel !== 'backtrack')
+  const api = extensionApi();
+  const repository = new Repository(chromeStorage(api));
+  api.runtime.onMessage.addListener((message, sender, reply) => {
+    if (sender.id !== api.runtime.id || message?.channel !== 'backtrack')
       return;
     void repository.execute(message.command).then(
       (state) => reply({ ok: true, state }),

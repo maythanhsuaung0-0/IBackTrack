@@ -11,7 +11,7 @@ import {
   renderHighlights,
 } from '../features/highlights';
 import { assistantMessages, scrollToRange } from '../lib/chatgpt-adapter';
-import { request } from '../lib/client';
+import { request, ResponseTimeoutError } from '../lib/client';
 import { EMPTY, type Command } from '../lib/storage';
 import type {
   ConversationState,
@@ -225,15 +225,16 @@ export function App({
       }
     } catch (error) {
       if (currentKey.current === key && reloadVersion.current === version) {
-        setLoadError(
+        const message =
           error instanceof Error
             ? error.message
-            : 'Saved items could not be loaded.',
-        );
+            : 'Saved items could not be loaded.';
+        setLoadError(message);
         setLoading(false);
+        notify(message, true);
       }
     }
-  }, [key, transport]);
+  }, [key, transport, notify]);
 
   useEffect(() => {
     ++sessionEpoch.current;
@@ -392,13 +393,20 @@ export function App({
         notify(success);
       }
     } catch (error) {
-      if (currentKey.current === command.key && sessionEpoch.current === epoch)
+      if (
+        currentKey.current === command.key &&
+        sessionEpoch.current === epoch
+      ) {
         notify(
           error instanceof Error
             ? error.message
             : 'Backtrack could not save. Try again.',
           true,
         );
+        // A timed-out reply does not prove the write failed. Read the persisted
+        // state without reissuing the write; the original worker queue stays ordered.
+        if (error instanceof ResponseTimeoutError) void refresh();
+      }
     } finally {
       if (
         currentKey.current === command.key &&
@@ -702,7 +710,7 @@ export function App({
           <footer className="bt-footer">
             <Icon name="lock" size={13} />
             <span>Just for you. Saved on this device.</span>
-            <span>0.1.1</span>
+            <span>0.1.2</span>
           </footer>
         </aside>
       )}

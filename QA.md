@@ -1,4 +1,4 @@
-# Backtrack 0.1.1 — verification and pilot guide
+# Backtrack 0.1.2 — verification and pilot guide
 
 ## Evidence from this build
 
@@ -15,6 +15,12 @@ Final command outcomes and test totals are recorded in `progress.md` after the f
 The owner reported that selecting an answer and clicking Save spot only showed “Scroll to an answer, or select the passage you want to save.” Four reproductions failed against the previous implementation: alternative assistant-turn markup, shell reading targets, a second markdown block in one answer, and native selection loss while clicking a real shadow-root toolbar. All now pass. Additional negative cases reject whole-conversation/unrelated content and discard cached selections when the user switches to the composer.
 
 The browser fixture now mounts the controls in an actual shadow root and uses shell reading-target markup without legacy author-role or markdown attributes. Browser actions verified drag-select → floating Save spot → drawer contains that exact excerpt → append sample follow-up → Return. This remains fixture evidence; the owner's exact live DOM and loaded extension transport have not been inspected.
+
+## 0.1.2 Save/load transport regression evidence
+
+A missing worker reply previously had no deadline, leaving Save disabled indefinitely. Integration tests now run the real client, background listener and repository against callback-only Chrome API mocks. They verify that Save waits for storage completion, storage/channel failures surface, a missing reply times out after eight seconds, late replies cannot claim success, the UI unlocks and reads back an already-written item without duplicating it, and a delayed native write retains queue ordering. Initial loading also times out visibly and supports Retry. A Promise-returning compatibility shim is covered separately.
+
+This verifies bounded UI behavior and protocol handling in mocks. It does not establish why the owner's installed browser failed or replace live acceptance. An isolated Chromium extension smoke test was attempted, but browser startup was blocked by the environment (socket creation denied); it supplied no additional acceptance evidence.
 
 ## Still required in live desktop Chrome / ChatGPT
 
@@ -35,6 +41,8 @@ Packaging regression tests cover a missing root manifest, an unlisted manifest a
 ## Troubleshooting
 
 **No controls:** Refresh the tab after installing/reloading the extension. Use `chatgpt.com` with an existing `/c/` conversation address. New/temporary chats without an ID are excluded. Check that Backtrack is enabled and has site access to ChatGPT.
+
+**Saving or loading does not finish:** Version 0.1.2 shows an error after eight seconds without a worker response. An unconfirmed save may already be stored; check Saved items before trying again. Reload Backtrack at `chrome://extensions`, refresh ChatGPT, and confirm Chrome shows version 0.1.2. Do not uninstall to troubleshoot if you need to preserve local data.
 
 **Passage unavailable:** Scroll to load the older answer and retry. Edited/regenerated text or duplicate context can invalidate the anchor. Keep the item for later, or remove it from Saved items.
 
