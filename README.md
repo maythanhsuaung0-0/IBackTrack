@@ -2,7 +2,7 @@
 
 **Follow your curiosity. Never lose your place.**
 
-Backtrack 0.1.1 is a Manifest V3 Chrome extension for reading long ChatGPT answers. Save your place, ask a follow-up in ChatGPT, then return to the passage you were reading. Select text to save persistent highlights.
+Backtrack 0.1.2 is a Manifest V3 Chrome extension for reading long ChatGPT answers. Save your place, ask a follow-up in ChatGPT, then return to the passage you were reading. Select text to save persistent highlights.
 
 ## Install from GitHub — no build required
 
@@ -22,9 +22,11 @@ When reviewing an unmerged pull request, check out that PR's branch first. Keep 
 
 ## Update an installed build
 
-Run `git pull` in the same installed checkout, click Backtrack's **Reload** button on `chrome://extensions`, and refresh ChatGPT. You do not need npm to install or update the checked-in build. The extension version remains **0.1.1**; this change fixes packaging rather than changing saved data or permissions.
+Run `git pull` in the same installed checkout, click Backtrack's **Reload** button on `chrome://extensions`, and refresh ChatGPT. You do not need npm to install or update the checked-in build. Confirm Chrome shows version **0.1.2** after updating. This update fixes Save/load requests that could wait indefinitely; saved data and permissions are unchanged.
 
 If your existing installation uses the earlier `Backtrack-Chrome` folder, you can copy the generated runtime files listed in `scripts/extension-files.json` into that same folder before reloading. Keep the same installed folder to preserve the extension identity and local data.
+
+Version 0.1.2 uses Chrome completion callbacks for messaging and storage, reports unanswered requests after eight seconds, and checks persisted state after an unconfirmed save without automatically repeating the write. If Save reports an unconfirmed result, check Saved items before trying again.
 
 Version 0.1.1 fixes selection loss when clicking Save spot, supports alternative assistant-turn / shell reading targets, and handles answers split across multiple markdown sections. Live ChatGPT layout confirmation is still tracked in `QA.md`.
 
@@ -79,7 +81,7 @@ GitHub Actions runs TypeScript, ESLint, all tests, formatting verification and t
 1. The ChatGPT adapter identifies assistant answers and the actual scrolling container.
 2. The anchor engine maps normalized text back to DOM text nodes. It records a short exact quote, up to 64 characters on each side, a host message ID when available, and a compact message fingerprint.
 3. Return requires a unique match in the same conversation and source message. Repeated or edited text can fail safely; an old character offset never wins by itself. Without a message ID, the fingerprint must still match.
-4. The background service worker serializes local storage operations across tabs. UI confirmations appear after writes succeed. Records are stored per conversation with a schema version and validation.
+4. The background service worker serializes local storage operations across tabs. UI confirmations appear after writes succeed. Client requests have an eight-second response deadline; a timeout reports an unconfirmed result, not a failed write. Native writes remain serialized until their completion callback, even if the UI deadline expires. Records are stored per conversation with a schema version and validation.
 5. The CSS Custom Highlight API paints ranges without wrapping or replacing ChatGPT’s text. Mutation observation restores highlights after answer re-renders. Observers, intervals, pending restores, and highlights are cleaned up when the extension context ends.
 
 Key code: `components/App.tsx` (UI and actions), `features/anchors/index.ts` (text matching), `features/highlights/index.ts` (painting), `lib/chatgpt-adapter.ts` (host assumptions), `lib/storage.ts` (validated repository), `entrypoints/background.ts` (Chrome storage transport), and `entrypoints/chatgpt.content/index.tsx` (WXT shadow-root mounting).

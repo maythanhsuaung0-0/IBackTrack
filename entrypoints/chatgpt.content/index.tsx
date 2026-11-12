@@ -1,16 +1,17 @@
 import { createRoot } from 'react-dom/client';
-import { browser } from 'wxt/browser';
 import { defineContentScript } from 'wxt/utils/define-content-script';
 import { createShadowRootUi } from 'wxt/utils/content-script-ui/shadow-root';
 import { App } from '../../components/App';
 import { installHighlightStyles } from '../../features/highlights';
 import { STORE_PREFIX } from '../../lib/storage';
+import { extensionApi } from '../../lib/extension-api';
 import './style.css';
 
 export default defineContentScript({
   matches: ['https://chatgpt.com/*'],
   cssInjectionMode: 'ui',
   async main(ctx) {
+    const api = extensionApi();
     const cleanupStyles = installHighlightStyles();
     const ui = await createShadowRootUi(ctx, {
       name: 'backtrack-reader',
@@ -36,8 +37,8 @@ export default defineContentScript({
                 )
                   listener();
               };
-              browser.storage.onChanged.addListener(onChange);
-              return () => browser.storage.onChanged.removeListener(onChange);
+              api.storage.onChanged.addListener(onChange);
+              return () => api.storage.onChanged.removeListener(onChange);
             }}
           />,
         );

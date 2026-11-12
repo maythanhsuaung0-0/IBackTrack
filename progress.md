@@ -8,7 +8,7 @@
 
 ## Current Status
 
-- **Overall:** MVP 0.1.1 repairs reported Save spot failures; owner confirmation on the live page is pending.
+- **Overall:** MVP 0.1.2 repairs unbounded Save/load waiting and earlier selection failures; owner confirmation on the live page is pending.
 - **Current authorized scope:** MVP (`M0`–`M6`) only.
 - **Active phase:** M6 — Owner-run live acceptance.
 - **Last verified task:** M6.8 — Handoff with explicit pending live checks.
@@ -620,3 +620,14 @@ Record partial implementation or uncertain findings here, without ticking tasks 
 - **Try it yourself:** After merging, pull the repository and select IBackTrack itself in Chrome's Load unpacked dialog.
 
 - **Local outcome:** Strict TypeScript, ESLint, **66 tests in 7 files**, production build, root package validation (12 runtime files), and formatting verification all passed. Remote CI is checked separately before handoff.
+
+
+### 2026-11-12 — 0.1.2 — Unanswered Save and loading requests
+- **User report:** Saving kept loading indefinitely after installation. The owner's live browser/session has not been inspected.
+- **Confirmed flaw:** The client awaited a service-worker response with no deadline. A missing response left the UI busy forever. Earlier tests injected a repository transport and did not exercise the real client/background callback protocol.
+- **What changed:** Use native Chrome callbacks consistently for messages and local storage, reading runtime.lastError inside each callback. Bound client requests to eight seconds; reject missing/malformed replies and invalidated contexts with visible recovery guidance. Loading errors now surface outside the drawer too. After an unconfirmed mutation, unlock the controls and read persisted state without repeating the write. A late response cannot turn the warning into a false success.
+- **Write ordering:** A client timeout does not cancel a storage write. The service-worker queue remains blocked until that native write completes, preventing a late first write from overwriting a later write. A permanently unresponsive worker needs extension Reload plus a ChatGPT refresh, as the error explains.
+- **Evidence:** New tests exercise the actual request function, background listener and repository using callback-only Chrome API mocks, including deferred writes, dropped/late replies, storage/channel errors, initial-load retry, UI unlock, and write reconciliation. These are integration mocks, not a live Chrome extension acceptance run.
+- **Scope:** Version 0.1.2; generated root runtime rebuilt. Same local storage schema, site access and permissions. M6.2–M6.4 remain unchecked.
+- **Try it yourself:** Pull the merged fix in the installed folder, Reload Backtrack at chrome://extensions, refresh ChatGPT, and confirm version 0.1.2. Select answer text and Save spot; check Saved items before retrying if a save is unconfirmed.
+- **Final local outcome:** `npm run check` passed (strict TypeScript, ESLint, **80 tests in 8 files**); `npm run build`, `npm run check:extension` (12 runtime files), and `npm run format:check` passed. A separate attempt to launch an isolated Chromium extension smoke test was blocked before browser startup by the environment (`socket() failed: Operation not permitted`); no native-extension or live ChatGPT success is claimed. GitHub CI is checked separately before handoff.

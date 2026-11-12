@@ -5,7 +5,7 @@
 > **Type:** Privacy-first Chrome extension (Manifest V3)
 > **Initial platform:** ChatGPT web app in desktop Chrome
 > **Primary audience:** Students, developers, and curious people reading long AI explanations
-> **Status:** MVP 0.1.1 includes the Save spot selection/layout compatibility fix. Automated checks and browser-fixture QA pass; live ChatGPT acceptance remains pending.
+> **Status:** MVP 0.1.2 includes the Save spot selection/layout fix and bounded Save/load requests with native Chrome completion callbacks. Automated checks and browser-fixture QA pass; live ChatGPT acceptance remains pending.
 > **Companion documents:** `progress.md` (task tracker) and `AGENTS.md` (Codex operating rules)
 
 ## 1. Problem and vision

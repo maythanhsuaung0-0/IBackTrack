@@ -130,7 +130,7 @@ describe('reader controls', () => {
       .mockResolvedValue({ schemaVersion: 1, items: [] });
     render(<App transport={transport} readUrl={readUrl} />);
     fireEvent.click(screen.getByRole('button', { name: /Saved items/ }));
-    await screen.findByText('Saved data left untouched.');
+    await screen.findAllByText('Saved data left untouched.');
     expect(screen.getByRole('button', { name: 'Save spot' })).toBeDisabled();
     fireEvent.click(screen.getByRole('button', { name: 'Try again' }));
     await screen.findByText('Leave yourself a way back.');
