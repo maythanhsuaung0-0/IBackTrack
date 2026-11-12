@@ -1,0 +1,52 @@
+import js from '@eslint/js';
+import ts from 'typescript-eslint';
+export default ts.config(
+  {
+    ignores: [
+      'node_modules/**',
+      '.wxt/**',
+      '.output/**',
+      'coverage/**',
+      'demo-dist/**',
+      'preview/**',
+      'release/**',
+    ],
+  },
+  js.configs.recommended,
+  ...ts.configs.recommended,
+  {
+    files: ['**/*.{ts,tsx}'],
+    languageOptions: {
+      globals: {
+        window: 'readonly',
+        document: 'readonly',
+        navigator: 'readonly',
+        console: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
+        MutationObserver: 'readonly',
+        NodeFilter: 'readonly',
+        Element: 'readonly',
+        Node: 'readonly',
+        Range: 'readonly',
+        HTMLElement: 'readonly',
+        HTMLButtonElement: 'readonly',
+        HTMLInputElement: 'readonly',
+        DOMRect: 'readonly',
+        Selection: 'readonly',
+        AbortController: 'readonly',
+        AbortSignal: 'readonly',
+        location: 'readonly',
+        crypto: 'readonly',
+        structuredClone: 'readonly',
+        getComputedStyle: 'readonly',
+        Text: 'readonly',
+        ParentNode: 'readonly',
+        KeyboardEvent: 'readonly',
+        Event: 'readonly',
+      },
+    },
+  },
+);

@@ -1,0 +1,256 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: #fffefa;
+  color: #2d3d33;
+  font:
+    15px/1.7 -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+}
+.fixture-header {
+  height: 76px;
+  padding: 0 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e7e9df;
+  background: #fffefa;
+}
+.fixture-header > div {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.fixture-header strong {
+  font-size: 19px;
+  letter-spacing: -0.6px;
+}
+.fixture-mark {
+  font-size: 29px;
+  color: #6c8a65;
+}
+.fixture-label {
+  font-size: 9px;
+  color: #8b967e;
+  letter-spacing: 1.3px;
+  border-left: 1px solid #d9dfce;
+  padding-left: 15px;
+}
+.fixture-header button {
+  border: 1px solid #dce2d3;
+  border-radius: 7px;
+  background: transparent;
+  color: #617154;
+  font: inherit;
+  font-size: 11px;
+  padding: 7px 11px;
+  cursor: pointer;
+}
+.fixture-shell {
+  display: flex;
+  height: calc(100vh - 76px);
+}
+.fixture-shell nav {
+  width: 272px;
+  flex: none;
+  padding: 68px 30px 30px 38px;
+  background: #f5f5ec;
+  border-right: 1px solid #e8eadf;
+}
+.fixture-small {
+  font-size: 9px;
+  letter-spacing: 1.8px;
+  color: #89977d;
+  font-weight: 550;
+}
+.fixture-shell nav h2 {
+  font:
+    29px/1.3 Georgia,
+    serif;
+  letter-spacing: -0.5px;
+  font-weight: 400;
+  margin: 22px 0 16px;
+}
+.fixture-shell nav p {
+  font-size: 12px;
+  color: #87917e;
+  line-height: 1.9;
+}
+.fixture-shell nav ol {
+  font-size: 11px;
+  color: #6f7e64;
+  padding-left: 17px;
+  margin: 36px 0;
+  line-height: 2.8;
+}
+.fixture-privacy {
+  display: block;
+  margin-top: 80px;
+  font-size: 10px;
+  color: #99a18e;
+  line-height: 1.8;
+}
+main#reader {
+  overflow: auto;
+  flex: 1;
+  scroll-behavior: smooth;
+}
+.fixture-content {
+  max-width: 760px;
+  margin: auto;
+  padding: 45px 70px 80px 35px;
+}
+.fixture-question {
+  background: #eef0e5;
+  border-radius: 18px 18px 4px 18px;
+  padding: 18px 23px;
+  font-size: 13px;
+  margin: 0 0 55px 45px;
+  color: #56664a;
+}
+article {
+  position: relative;
+}
+.fixture-avatar {
+  position: absolute;
+  left: -31px;
+  top: 0;
+  color: #7c9270;
+  font-size: 21px;
+}
+.fixture-answer h1 {
+  font:
+    38px/1.22 Georgia,
+    serif;
+  letter-spacing: -0.9px;
+  font-weight: 400;
+  margin: 15px 0 20px;
+}
+.fixture-answer p {
+  font-size: 14px;
+  line-height: 1.95;
+  color: #5c6856;
+}
+.fixture-answer .fixture-lead {
+  font-size: 15px;
+  color: #8a947f;
+  line-height: 1.9;
+  margin-bottom: 45px;
+}
+.fixture-answer section {
+  position: relative;
+  padding: 9px 0 14px;
+  margin-bottom: 28px;
+}
+.fixture-answer h2 {
+  font-size: 18px;
+  font-weight: 550;
+  letter-spacing: -0.3px;
+  margin: 0 0 10px;
+}
+.fixture-number {
+  position: absolute;
+  left: -29px;
+  top: 14px;
+  font-size: 9px;
+  color: #a2ac92;
+}
+.fixture-formula {
+  border: 1px solid #dce2d0;
+  border-radius: 10px;
+  background: #f7f8f0;
+  margin: 25px 0 6px;
+  padding: 25px;
+  text-align: center;
+}
+.fixture-formula code {
+  display: block;
+  font-size: 19px;
+  color: #6a7f59;
+}
+.fixture-formula span {
+  font-size: 10px;
+  color: #929d85;
+  display: block;
+  margin-top: 12px;
+}
+.fixture-finish {
+  padding: 24px 0;
+  border-top: 1px solid #e2e7d7;
+}
+.fixture-actions {
+  padding: 25px 0;
+}
+.fixture-actions button {
+  font: inherit;
+  color: #f7f8eb;
+  background: #36543e;
+  border: 0;
+  border-radius: 8px;
+  padding: 13px 20px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.fixture-actions p {
+  color: #97a08c;
+  font-size: 10px;
+}
+.fixture-composer {
+  border: 1px solid #dce1d2;
+  border-radius: 14px;
+  padding: 20px;
+  color: #99a18f;
+  font-size: 12px;
+  min-height: 90px;
+  margin: 40px 0 20px;
+}
+.fixture-dark body {
+  background: #202820;
+  color: #dde4d4;
+}
+.fixture-dark .fixture-header {
+  background: #242e24;
+  border-color: #414a3a;
+}
+.fixture-dark nav {
+  background: #283024;
+  border-color: #414a3a;
+}
+.fixture-dark .fixture-answer p {
+  color: #b0bba4;
+}
+.fixture-dark .fixture-question,
+.fixture-dark .fixture-formula {
+  background: #303c2a;
+  color: #c0ccb4;
+  border-color: #4b5d40;
+}
+@media (max-width: 800px) {
+  .fixture-shell nav {
+    display: none;
+  }
+  .fixture-header {
+    padding: 0 20px;
+  }
+  .fixture-label {
+    display: none;
+  }
+  .fixture-header button {
+    font-size: 10px;
+  }
+  .fixture-content {
+    padding: 38px 35px 80px 50px;
+  }
+  .fixture-answer h1 {
+    font-size: 30px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  main#reader {
+    scroll-behavior: auto;
+  }
+}
